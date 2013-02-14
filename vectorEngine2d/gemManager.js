@@ -57,7 +57,7 @@ GemManager.prototype.newLine = function() {
     }
     
     this.gems = tempGems;
-    this.checkIfDead();
+    if(this.checkIfDead()) { alert("Game over!") };
 };
 
 GemManager.prototype.checkIfDead = function() {
@@ -65,9 +65,10 @@ GemManager.prototype.checkIfDead = function() {
         gem = this.gems[this.gems.length - 1][x];
         if(gem !== -1) {
             this.scene.isPlaying = false;
-            break;
+            return true;
         }
     }
+    return false;
 };
 
 GemManager.prototype.update = function() {
