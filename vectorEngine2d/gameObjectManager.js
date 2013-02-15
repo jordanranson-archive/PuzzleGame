@@ -9,12 +9,6 @@ GameObjectManager.prototype.loadContent = function() {
     }
 }
 
-GameObjectManager.prototype.init = function() {
-    for(var i = 0; i < this.gameObjects.length; i++) {
-        this.gameObjects[i].init();
-    }
-}
-
 GameObjectManager.prototype.addObject = function(gameObject) {
     this.gameObjects.push(gameObject);
 };

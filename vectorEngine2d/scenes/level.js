@@ -10,6 +10,7 @@ var Level = function(game, levelId) {
     this.playingFieldY = 100;
     this.gameObjectManager = new GameObjectManager(this);
     this.gemManager = new GemManager(this);
+    this.game = game;
     
     // States
     this.isPlaying = true;
@@ -22,7 +23,6 @@ var Level = function(game, levelId) {
 
 Level.prototype.init = function() {
     var _this = this;
-    this.gameObjectManager.init();
     
     // Pause the game
     this.inputManager.addKeyEvent(KeyAction.cancel, function() {
@@ -30,17 +30,13 @@ Level.prototype.init = function() {
     });
     
     /* Debug keys */
-    this.inputManager.addKeyEvent(Key.h, function() {
-        if(_this.isPlaying) {
-            _this.gemManager.newLine();
-        }
-    });
     
     // Toggle wireframes
     this.inputManager.addKeyEvent(KeyAction.func1, function() {
         _this.renderManager.wireframes = !_this.renderManager.wireframes;
     }); 
     
+    this.gameObjectManager.addObject(new Player(this));
     this.gemManager.newLine();
     
     // Update first tick early so everything appears to be in position before drawing
@@ -59,7 +55,10 @@ Level.prototype.unload = function(callback) {
 };
 
 Level.prototype.update = function() {
-    this.gameObjectManager.update();
+    if(!this.isPaused) {
+        this.gameObjectManager.update();
+        this.gemManager.update();
+    }
 };
 
 Level.prototype.draw = function() {

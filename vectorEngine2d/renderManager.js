@@ -110,6 +110,29 @@ RenderManager.prototype.drawSprite = function(image, x, y, width, height, sx, sy
     }
 };
 
+RenderManager.prototype.drawPolyline = function(points, strokeColor, strokeWidth, fillColor) { 
+    this.context.save();
+
+    this.context.beginPath();
+    for(var i = 0; i < points.length; i++) {
+        if(i === 0) {
+            this.context.moveTo(points[i].x, points[i].y);
+        } else {
+            this.context.lineTo(points[i].x, points[i].y);
+        }
+    }
+    this.context.closePath();
+    
+    this.context.lineWidth = strokeWidth;
+    this.context.strokeStyle = strokeColor;
+    this.context.stroke();
+    
+    this.context.fillStyle = fillColor;
+    this.context.fill();
+    
+    this.context.restore();
+};
+
 RenderManager.prototype.drawPolysprite = function(points, strokeColor, strokeWidth, fillColor) { 
     this.context.save();
 

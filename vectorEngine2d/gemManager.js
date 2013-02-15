@@ -11,14 +11,6 @@ GemManager.prototype.loadContent = function() {
     }
 };
 
-GemManager.prototype.init = function() {
-    for(var y = 0; y < this.gems.length; y++) {
-        for(var x = 0; x < this.gems[y].length; x++) {
-            this.gems[y][x].init();
-        }
-    }
-};
-
 GemManager.prototype.createEmptyArray = function() {
     var arr = [];
     for(var y = 0; y < this.scene.levelHeight; y++) {
@@ -69,6 +61,41 @@ GemManager.prototype.checkIfDead = function() {
         }
     }
     return false;
+};
+
+GemManager.prototype.findClosestGroupUp = function(x) {
+    var gem;
+    var type = -1;
+    var found = [];
+    
+    for(var y = this.scene.levelHeight - 1; y >= 0; y--) {
+        gem = this.gems[y][x];
+        
+        if(gem !== -1) {
+            if(type === -1) {
+                type = gem.type;
+                found.push(gem);
+            } else {
+                if(gem.type === type) {
+                    found.push(gem);
+                } else {
+                    break;
+                }
+            }
+        }
+    }
+    
+    return found;
+};
+
+GemManager.prototype.findClosestOpen = function(x) {
+    for(var y = this.scene.levelHeight - 1; y >= 0; y--) {
+        if(this.gems[y][x] !== -1) {
+            return y;
+        }
+    }
+    
+    return -1;
 };
 
 GemManager.prototype.update = function() {
