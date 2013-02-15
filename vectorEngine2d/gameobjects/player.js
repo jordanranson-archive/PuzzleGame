@@ -1,7 +1,7 @@
-var Player = function(scene) {
+var Player = function(scene, y) {
     this.scene = scene;
     this.x = 3;
-    this.y = 0;
+    this.y = y;
     this.lastX = 3;
     
     this.heldGems;
@@ -33,13 +33,14 @@ Player.prototype.init = function() {
     this.scene.inputManager.addKeyEvent(Key.h, function() {
         if(_this.scene.isPlaying) {
             _this.scene.gemManager.newLine();
-            _this.y = _this.scene.gemManager.findClosestOpen(_this.x);
+            _this.forceUpdate();
         }
     });
     
     this.scene.inputManager.addKeyEvent(KeyAction.down, function() {
         if(!_this.scene.isPaused) {
-            _this.heldGems = _this.scene.gemManager.findClosestGroupUp(_this.x);
+            _this.heldGems = _this.scene.gemManager.getClosestGroup(_this.x);
+            _this.forceUpdate();
         }
     });
 
@@ -49,6 +50,10 @@ Player.prototype.init = function() {
             console.log(_this.heldGems);
         }
     });
+};
+
+Player.prototype.forceUpdate = function() {
+    this.y = this.scene.gemManager.findClosestOpen(this.x);
 };
 
 Player.prototype.update = function() {

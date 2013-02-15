@@ -11,10 +11,11 @@ var Level = function(game, levelId) {
     this.gameObjectManager = new GameObjectManager(this);
     this.gemManager = new GemManager(this);
     this.game = game;
+    this.player;
     
     // States
     this.isPlaying = true;
-    this.isRunning = false;
+    this.isGameOver = false;
     this.isPaused = false;
 
     // Add game objects like the player
@@ -36,8 +37,18 @@ Level.prototype.init = function() {
         _this.renderManager.wireframes = !_this.renderManager.wireframes;
     }); 
     
-    this.gameObjectManager.addObject(new Player(this));
-    this.gemManager.newLine();
+    this.player = new Player(this, -1);
+    this.gameObjectManager.addObject(this.player);
+
+    var newLineTimer = setInterval(function() {
+        if(_this.isPlaying) {
+            _this.gemManager.newLine();
+            _this.player.forceUpdate();
+        } else {
+            clearTimeout(newLineTimer);
+            newLineTimer = null;
+        }
+    }, 4000);
     
     // Update first tick early so everything appears to be in position before drawing
     this.update();
@@ -59,6 +70,10 @@ Level.prototype.update = function() {
         this.gameObjectManager.update();
         this.gemManager.update();
     }
+    
+    if(this.isGameOver && this.isPlaying) {
+        this.isPlaying = false;
+    }
 };
 
 Level.prototype.draw = function() {
@@ -73,6 +88,18 @@ Level.prototype.draw = function() {
     this.gemManager.draw();
     this.gameObjectManager.draw();
     
+    // Game over
+    if(this.isGameOver) {
+        this.renderManager.drawText(
+            this.renderManager.canvas.width / 2 + 2, this.renderManager.canvas.height / 2 + 2,
+            "#000", "20pt sans-serif", "center", "Game Over!"
+        );
+        this.renderManager.drawText(
+            this.renderManager.canvas.width / 2, this.renderManager.canvas.height / 2,
+            "#fff", "20pt sans-serif", "center", "Game Over!"
+        );
+    }
+    
     // Draw pause menu
     if(this.isPaused) {
         this.renderManager.drawRectangle(
@@ -80,8 +107,12 @@ Level.prototype.draw = function() {
             "transparent", 0, "rgba(0,0,0,0.5)"
         );
         this.renderManager.drawText(
+            this.renderManager.canvas.width / 2 + 2, this.renderManager.canvas.height / 2 + 2,
+            "#000", "20pt sans-serif", "center", "Paused"
+        );
+        this.renderManager.drawText(
             this.renderManager.canvas.width / 2, this.renderManager.canvas.height / 2,
-            "#ffffff", "20pt sans-serif", "center", "Game Paused"
+            "#fff", "20pt sans-serif", "center", "Paused"
         );
     }
 };

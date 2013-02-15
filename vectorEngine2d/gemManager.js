@@ -49,21 +49,19 @@ GemManager.prototype.newLine = function() {
     }
     
     this.gems = tempGems;
-    if(this.checkIfDead()) { alert("Game over!") };
+    this.checkIfDead();
 };
 
 GemManager.prototype.checkIfDead = function() {
     for(var x = 0; x < this.gems[this.gems.length - 1].length; x++) {
-        gem = this.gems[this.gems.length - 1][x];
+        gem = this.gems[this.gems.length - 2][x];
         if(gem !== -1) {
-            this.scene.isPlaying = false;
-            return true;
+            this.scene.isGameOver = true;
         }
     }
-    return false;
 };
 
-GemManager.prototype.findClosestGroupUp = function(x) {
+GemManager.prototype.getClosestGroup = function(x) {
     var gem;
     var type = -1;
     var found = [];
@@ -75,9 +73,11 @@ GemManager.prototype.findClosestGroupUp = function(x) {
             if(type === -1) {
                 type = gem.type;
                 found.push(gem);
+                this.gems[y][x] = -1;
             } else {
                 if(gem.type === type) {
                     found.push(gem);
+                    this.gems[y][x] = -1;
                 } else {
                     break;
                 }
