@@ -12,6 +12,8 @@ var Level = function(game, levelId) {
     this.gemManager = new GemManager(this);
     this.game = game;
     this.player;
+    this.newLineCounter = 0;
+    this.newLineInterval = 2000;
     
     // States
     this.isPlaying = true;
@@ -39,16 +41,6 @@ Level.prototype.init = function() {
     
     this.player = new Player(this, -1);
     this.gameObjectManager.addObject(this.player);
-
-    var newLineTimer = setInterval(function() {
-        if(_this.isPlaying) {
-            _this.gemManager.newLine();
-            _this.player.forceUpdate();
-        } else {
-            clearTimeout(newLineTimer);
-            newLineTimer = null;
-        }
-    }, 4000);
     
     // Update first tick early so everything appears to be in position before drawing
     this.update();
@@ -69,6 +61,13 @@ Level.prototype.update = function() {
     if(!this.isPaused) {
         this.gameObjectManager.update();
         this.gemManager.update();
+        
+        this.newLineCounter += this.game.curTime - this.game.lastTime;
+        if(this.newLineCounter > this.newLineInterval) {
+            this.gemManager.newLine();
+            this.player.forceUpdate();
+            this.newLineCounter = 0;
+        }
     }
     
     if(this.isGameOver && this.isPlaying) {
