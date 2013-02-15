@@ -63,7 +63,7 @@ Level.prototype.update = function() {
         this.gemManager.update();
         
         this.newLineCounter += this.game.curTime - this.game.lastTime;
-        if(this.newLineCounter > this.newLineInterval) {
+        if(this.newLineCounter > this.newLineInterval && this.isPlaying) {
             this.gemManager.newLine();
             this.player.forceUpdate();
             this.newLineCounter = 0;
