@@ -106,8 +106,34 @@ Player.prototype.draw = function() {
             playerColor = "#ccc";
         }
         
-        var flash = this.scene.game.curTime % 3 == 0 ? "#f0f" : (this.scene.game.curTime % 3 == 1 ? "#0ff" : "#ff0");
-        //renderManager.drawRectangle(ptx - radius + 2, pty - radius + 2, (radius * 2) - 4, (radius * 2) - 4, color, 4, "transparent");
+        var flash;
+        if(this.scene.isPaused) {
+            flash = this.scene.timeWhenPaused % 3 == 0 ? "#f0f" : (this.scene.timeWhenPaused % 3 == 1 ? "#0ff" : "#ff0");
+        } else {
+            flash = this.scene.game.curTime % 3 == 0 ? "#f0f" : (this.scene.game.curTime % 3 == 1 ? "#0ff" : "#ff0");
+        }
+        
+        if(this.heldGems.length < this.inventorySize) {
+            var height;
+            if(this.heldGems.length > 0) {
+                height = this.scene.gemManager.getClosestGroup(this.x, this.inventorySize - this.heldGems.length, this.heldGems[0].type, true);
+                height = height.length;
+                
+                
+            } else {
+                height = this.scene.gemManager.getClosestGroup(this.x, this.inventorySize - this.heldGems.length, false, true);
+                height = height.length;
+                
+                
+            }
+            if(this.y >= 0 && height > 0) {
+                renderManager.drawRectangle(
+                    ptx - radius + 2, (pty - radius + 2) - ((height - 1) * this.scene.gemSize),
+                    (radius * 2) - 4, (height * this.scene.gemSize) - 4,
+                    flash, 4, "transparent"
+                );
+            }
+        }
         
         renderManager.drawLine(ptx, pty + radius + 16, ptx, basey, "#242424", 6);
         renderManager.drawPolyline(

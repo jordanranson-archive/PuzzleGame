@@ -14,6 +14,7 @@ var Level = function(game, levelId) {
     this.player;
     this.newLineCounter = 0;
     this.newLineInterval = 5000;
+    this.timeWhenPaused = 0;
     
     // States
     this.isPlaying = true;
@@ -30,6 +31,9 @@ Level.prototype.init = function() {
     // Pause the game
     this.inputManager.addKeyEvent(KeyAction.cancel, function() {
         _this.isPaused = !_this.isPaused;
+        if(!_this.isPaused) {
+            _this.timeWhenPaused = _this.game.curTime;
+        }
     });
     
     /* Debug keys */
