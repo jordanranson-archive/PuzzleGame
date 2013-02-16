@@ -13,7 +13,7 @@ var Level = function(game, levelId) {
     this.game = game;
     this.player;
     this.newLineCounter = 0;
-    this.newLineInterval = 50000000;
+    this.newLineInterval = 4000;
     this.timeWhenPaused = 0;
     this.multiplier = 0;
     this.score = 0;
