@@ -40,7 +40,7 @@ Player.prototype.init = function() {
     
     this.scene.inputManager.addKeyEvent(Key.g, function() {
         if(_this.scene.isPlaying && _this.scene.isPlaying) {
-            _this.scene.gemManager.collapseGems();
+            _this.scene.gemManager.collapse();
             _this.forceUpdate();
         }
     });
@@ -67,7 +67,7 @@ Player.prototype.init = function() {
             if(_this.heldGems.length > 0) {
                 if(_this.scene.gemManager.placeGems(_this.x, _this.heldGems)) {
                     _this.scene.gemManager.tryToClear(_this.x, _this.heldGems[0].type);
-                    _this.scene.gemManager.collapseGems();
+                    _this.scene.gemManager.collapse();
                     _this.heldGems = [];
                     _this.forceUpdate();
                 }
