@@ -61,7 +61,7 @@ GemManager.prototype.checkIfDead = function() {
     }
 };
 
-GemManager.prototype.getClosestGroup = function(x, gemType) {
+GemManager.prototype.getClosestGroup = function(x, maxLength, gemType) {
     var gem;
     var type = -1;
     var found = [];
@@ -73,17 +73,19 @@ GemManager.prototype.getClosestGroup = function(x, gemType) {
     for(var y = this.scene.levelHeight - 1; y >= 0; y--) {
         gem = this.gems[y][x];
         
-        if(gem !== -1) {
-            if(type === -1) {
-                type = gem.type;
-                found.push(gem);
-                this.gems[y][x] = -1;
-            } else {
-                if(gem.type === type) {
+        if(found.length < maxLength) {
+            if(gem !== -1) {
+                if(type === -1) {
+                    type = gem.type;
                     found.push(gem);
                     this.gems[y][x] = -1;
                 } else {
-                    break;
+                    if(gem.type === type) {
+                        found.push(gem);
+                        this.gems[y][x] = -1;
+                    } else {
+                        break;
+                    }
                 }
             }
         }

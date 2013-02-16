@@ -13,7 +13,7 @@ var Level = function(game, levelId) {
     this.game = game;
     this.player;
     this.newLineCounter = 0;
-    this.newLineInterval = 2000;
+    this.newLineInterval = 4000;
     
     // States
     this.isPlaying = true;
@@ -65,7 +65,7 @@ Level.prototype.update = function() {
         
         this.newLineCounter += this.game.curTime - this.game.lastTime;
         if(this.newLineCounter > this.newLineInterval && this.isPlaying) {
-            //this.gemManager.newLine();
+            this.gemManager.newLine();
             this.player.forceUpdate();
             this.newLineCounter = 0;
         }

@@ -4,6 +4,7 @@ var Player = function(scene, y) {
     this.y = y;
     this.lastX = 3;
     
+    this.inventorySize = 4;
     this.heldGems = [];
     
     this.init();
@@ -40,12 +41,12 @@ Player.prototype.init = function() {
     this.scene.inputManager.addKeyEvent(KeyAction.down, function() {
         if(!_this.scene.isPaused && _this.scene.isPlaying) {
             if(_this.heldGems.length > 0) {
-                var heldGems = _this.scene.gemManager.getClosestGroup(_this.x, _this.heldGems[0].type);
+                var heldGems = _this.scene.gemManager.getClosestGroup(_this.x, _this.inventorySize - _this.heldGems.length, _this.heldGems[0].type);
                 for(var i = 0; i < heldGems.length; i++) {
                     _this.heldGems.push(heldGems[i]);
                 }
             } else {
-                var heldGems = _this.scene.gemManager.getClosestGroup(_this.x);
+                var heldGems = _this.scene.gemManager.getClosestGroup(_this.x, _this.inventorySize);
                 for(var i = 0; i < heldGems.length; i++) {
                     _this.heldGems.push(heldGems[i]);
                 }
