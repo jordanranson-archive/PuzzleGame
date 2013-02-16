@@ -141,6 +141,9 @@ GemManager.prototype.placeGems = function(x, gems) {
                 return false;
             }
         }
+        else if(ystart + gems.length > this.scene.levelHeight - 1) {
+            return false;
+        }
         // Place gem normally
         gems[y].y = y + ystart;
         gems[y].x = x;
