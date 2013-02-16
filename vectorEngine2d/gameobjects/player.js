@@ -126,7 +126,7 @@ Player.prototype.draw = function() {
                 
                 
             }
-            if(this.y >= 0 && height > 0 && !this.isGameOver) {
+            if(this.y >= 0 && height > 0 && !this.scene.isGameOver) {
                 renderManager.drawRectangle(
                     ptx - radius + 2, (pty - radius + 2) - ((height - 1) * this.scene.gemSize),
                     (radius * 2) - 4, (height * this.scene.gemSize) - 4,

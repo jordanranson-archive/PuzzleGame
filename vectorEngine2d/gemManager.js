@@ -177,6 +177,7 @@ GemManager.prototype.clearGems = function(x, y, type) {
 };
 
 // This method courtesy of github user nickmass (nickmass.com)
+// Collapses empty spaces in the playfield
 GemManager.prototype.collapse = function() {
     var gem, gemBelow;
     var didMove = false;

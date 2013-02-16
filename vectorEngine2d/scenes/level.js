@@ -93,6 +93,33 @@ Level.prototype.draw = function() {
             this.renderManager.canvas.width / 2, this.playingFieldY - 38,
             "#ccc", "14pt sans-serif", "center", "Score - " + this.score
         );
+        
+        for(var i = 0; i < this.player.heldGems.length; i++) {
+            this.renderManager.drawCircle(
+                this.playingFieldX - this.gemSize / 2 - 15, 
+                this.playingFieldY + (i * this.gemSize) + (this.gemSize / 2), this.gemSize / 2,
+                "transparent", 0, this.player.heldGems[0].type
+            );
+        };
+        
+        var flash;
+        if(this.isPaused) {
+            flash = this.timeWhenPaused % 3 == 0 ? "#f0f" : (this.timeWhenPaused % 3 == 1 ? "#0ff" : "#ff0");
+        } else {
+            flash = this.game.curTime % 3 == 0 ? "#f0f" : (this.game.curTime % 3 == 1 ? "#0ff" : "#ff0");
+        }
+        if(this.player.heldGems.length === this.player.inventorySize) {
+            this.renderManager.drawText(
+                this.playingFieldX - this.gemSize / 2 - 15 + 1,
+                this.playingFieldY + ((this.player.heldGems.length - 1) * this.gemSize) + (this.gemSize / 2) + 4 + 1,
+                "#000", "bold 9pt sans-serif", "center", "MAX"
+            );
+            this.renderManager.drawText(
+                this.playingFieldX - this.gemSize / 2 - 15,
+                this.playingFieldY + ((this.player.heldGems.length - 1) * this.gemSize) + (this.gemSize / 2) + 4,
+                flash, "bold 9pt sans-serif", "center", "MAX"
+            );
+        }
     }
     
     // Draw game objects
