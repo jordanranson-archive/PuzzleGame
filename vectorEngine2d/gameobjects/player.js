@@ -38,6 +38,13 @@ Player.prototype.init = function() {
         }
     });
     
+    this.scene.inputManager.addKeyEvent(Key.g, function() {
+        if(_this.scene.isPlaying && _this.scene.isPlaying) {
+            _this.scene.gemManager.collapseGems();
+            _this.forceUpdate();
+        }
+    });
+    
     this.scene.inputManager.addKeyEvent(KeyAction.down, function() {
         if(!_this.scene.isPaused && _this.scene.isPlaying) {
             if(_this.heldGems.length > 0) {
@@ -57,9 +64,10 @@ Player.prototype.init = function() {
     
     this.scene.inputManager.addKeyEvent(KeyAction.up, function() {
         if(!_this.scene.isPaused) {
-            if(_this.heldGems) {
+            if(_this.heldGems.length > 0) {
                 if(_this.scene.gemManager.placeGems(_this.x, _this.heldGems)) {
                     _this.scene.gemManager.tryToClear(_this.x, _this.heldGems[0].type);
+                    _this.scene.gemManager.collapseGems();
                     _this.heldGems = [];
                     _this.forceUpdate();
                 }

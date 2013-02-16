@@ -3,6 +3,7 @@ var GemManager = function(scene) {
     this.gems = this.createEmptyArray();
     
     this.gemsNeededToClear = 3;
+    this.collapseCounter = 0;
 };
 
 GemManager.prototype.loadContent = function() {
@@ -46,8 +47,12 @@ GemManager.prototype.newLine = function() {
         type = random === 0 ? GemType.red : (
                random === 1 ? GemType.green : (
                random === 2 ? GemType.blue : (
-               random === 3 ? GemType.yellow : null)));
-        tempGems[0][i] = new Gem(this.scene, i, 0, this.scene.gemSize, type);
+               random === 3 ? GemType.yellow : -1)));
+        if(type === -1) {
+            tempGems[0][i] = -1;
+        } else {
+            tempGems[0][i] = new Gem(this.scene, i, 0, this.scene.gemSize, type);
+        }
     }
     
     this.gems = tempGems;
@@ -146,6 +151,36 @@ GemManager.prototype.clearGems = function(x, y, type) {
 
 GemManager.prototype.clearGem = function(gem) {
     gem = -1;
+};
+
+GemManager.prototype.collapseGems = function() {
+    var gem, gemBelow;
+    this.collapseCounter = 0;
+    this.collapse();
+};
+
+GemManager.prototype.collapse = function() {
+    // TODO: make not bad
+    try {
+        for(var x = 0; x < this.gems[0].length; x++) {
+             for(var y = 0; y < this.gems.length; y++) {
+                gem = this.gems[y][x];
+                gemBelow = this.gems[y+1] && this.gems[y+1][x] ? this.gems[y+1][x] : -1;
+
+                if(y === 0 && gem === -1) { this.collapseCounter++; }
+                
+                if(gem === -1 && gemBelow !== -1) {
+                    gemBelow.y--;
+                    this.gems[y][x] = gemBelow;
+                    this.gems[y+1][x] = -1;
+                }
+            }
+        }
+        
+        this.collapse();
+    } catch(e) {
+    
+    }
 };
 
 GemManager.prototype.update = function() {

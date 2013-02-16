@@ -13,7 +13,7 @@ var Level = function(game, levelId) {
     this.game = game;
     this.player;
     this.newLineCounter = 0;
-    this.newLineInterval = 4000;
+    this.newLineInterval = 5000;
     
     // States
     this.isPlaying = true;
