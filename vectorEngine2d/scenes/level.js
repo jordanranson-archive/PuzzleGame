@@ -39,7 +39,8 @@ Level.prototype.init = function() {
         _this.renderManager.wireframes = !_this.renderManager.wireframes;
     }); 
     
-    this.player = new Player(this, -1);
+    this.player = new Player(this, 0);
+    this.gemManager.newLine();
     this.gameObjectManager.addObject(this.player);
     
     // Update first tick early so everything appears to be in position before drawing
@@ -64,7 +65,7 @@ Level.prototype.update = function() {
         
         this.newLineCounter += this.game.curTime - this.game.lastTime;
         if(this.newLineCounter > this.newLineInterval && this.isPlaying) {
-            this.gemManager.newLine();
+            //this.gemManager.newLine();
             this.player.forceUpdate();
             this.newLineCounter = 0;
         }

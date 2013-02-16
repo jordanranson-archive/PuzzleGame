@@ -61,10 +61,14 @@ GemManager.prototype.checkIfDead = function() {
     }
 };
 
-GemManager.prototype.getClosestGroup = function(x) {
+GemManager.prototype.getClosestGroup = function(x, gemType) {
     var gem;
     var type = -1;
     var found = [];
+    
+    if(gemType) {
+        type = gemType;
+    }
     
     for(var y = this.scene.levelHeight - 1; y >= 0; y--) {
         gem = this.gems[y][x];
@@ -96,6 +100,24 @@ GemManager.prototype.findClosestOpen = function(x) {
     }
     
     return -1;
+};
+
+GemManager.prototype.placeGems = function(x, gems) {
+    var ystart = this.findClosestOpen(x) + 1;
+    var gem;
+    
+    for(var y = 0; y < gems.length; y++) {
+        if(y + ystart < this.scene.levelHeight) {
+            gems[y].y = y + ystart;
+            gems[y].x = x;
+            this.gems[y + ystart][x] = gems[y];
+            this.checkIfDead();
+        } else {
+            return false;
+        }
+    }
+    
+    return true;
 };
 
 GemManager.prototype.update = function() {
