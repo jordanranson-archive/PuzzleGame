@@ -117,6 +117,10 @@ GemManager.prototype.placeGems = function(x, gems) {
     var ystart = this.findClosestOpen(x) + 1;
     var gem;
     
+    if(ystart + gems.length >= this.scene.levelHeight - 1) {
+        return false;
+    }
+    
     for(var y = 0; y < gems.length; y++) {
         if(y + ystart < this.scene.levelHeight) {
             gems[y].y = y + ystart;

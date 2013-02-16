@@ -4,10 +4,10 @@ var Level = function(game, levelId) {
     this.inputManager = game.inputManager;
     this.sceneManager = game.sceneManager;
     this.levelWidth = 7;
-    this.levelHeight = 12;
+    this.levelHeight = 13;
     this.gemSize = 48;
     this.playingFieldX = (this.renderManager.canvas.width - this.levelWidth * this.gemSize) / 2;
-    this.playingFieldY = 100;
+    this.playingFieldY = 85;
     this.gameObjectManager = new GameObjectManager(this);
     this.gemManager = new GemManager(this);
     this.game = game;
@@ -80,7 +80,7 @@ Level.prototype.draw = function() {
     // Gameplay area
     if(this.renderManager.wireframes) {
         this.renderManager.drawRectangle(
-            this.playingFieldX - 2, this.playingFieldY - 2, (this.levelWidth * this.gemSize) + 4, (this.levelHeight * this.gemSize) + 4, "#666", 4, "transparent"
+            this.playingFieldX - 2, this.playingFieldY - 2, (this.levelWidth * this.gemSize) + 4, (this.levelHeight * this.gemSize) + 4 - this.gemSize, "#666", 4, "transparent"
         );
     }
     
