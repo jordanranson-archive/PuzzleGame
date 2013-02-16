@@ -104,15 +104,33 @@ Level.prototype.draw = function() {
     if(this.isPaused) {
         this.renderManager.drawRectangle(
             0, 0, this.renderManager.canvas.width, this.renderManager.canvas.height,
-            "transparent", 0, "rgba(0,0,0,0.5)"
+            "transparent", 0, "rgba(15,15,15,0.8)"
         );
+        
         this.renderManager.drawText(
-            this.renderManager.canvas.width / 2 + 2, this.renderManager.canvas.height / 2 + 2,
+            this.renderManager.canvas.width / 2 + 2, this.renderManager.canvas.height / 2 + 2 - 20,
             "#000", "20pt sans-serif", "center", "Paused"
         );
         this.renderManager.drawText(
-            this.renderManager.canvas.width / 2, this.renderManager.canvas.height / 2,
+            this.renderManager.canvas.width / 2, this.renderManager.canvas.height / 2 - 20,
             "#fff", "20pt sans-serif", "center", "Paused"
+        );
+        
+        this.renderManager.drawText(
+            this.renderManager.canvas.width / 2, this.renderManager.canvas.height / 2 + 10,
+            "#777", "8pt sans-serif", "center", "LEFT/RIGHT ARROWS - MOVE"
+        );
+        this.renderManager.drawText(
+            this.renderManager.canvas.width / 2, this.renderManager.canvas.height / 2 + 30,
+            "#777", "8pt sans-serif", "center", "DOWN ARROW - GRAB GEMS"
+        );
+        this.renderManager.drawText(
+            this.renderManager.canvas.width / 2, this.renderManager.canvas.height / 2 + 50,
+            "#777", "8pt sans-serif", "center", "UP ARROW - SHOOT GEMS"
+        );
+        this.renderManager.drawText(
+            this.renderManager.canvas.width / 2, this.renderManager.canvas.height / 2 + 80,
+            "#fff", "10pt sans-serif", "center", "Try to match 3 or more gems in a row."
         );
     }
 };
