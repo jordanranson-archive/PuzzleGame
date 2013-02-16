@@ -108,7 +108,7 @@ Level.prototype.draw = function() {
     if(this.isPaused) {
         this.renderManager.drawRectangle(
             0, 0, this.renderManager.canvas.width, this.renderManager.canvas.height,
-            "transparent", 0, "rgba(15,15,15,0.8)"
+            "transparent", 0, "#141414"
         );
         
         this.renderManager.drawText(
