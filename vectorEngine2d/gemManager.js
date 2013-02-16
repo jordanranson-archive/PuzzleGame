@@ -1,6 +1,8 @@
 var GemManager = function(scene) {
     this.scene = scene;
     this.gems = this.createEmptyArray();
+    
+    this.gemsNeededToClear = 3;
 };
 
 GemManager.prototype.loadContent = function() {
@@ -57,11 +59,14 @@ GemManager.prototype.checkIfDead = function() {
         gem = this.gems[this.gems.length - 2][x];
         if(gem !== -1) {
             this.scene.isGameOver = true;
+            return true;
         }
     }
+    
+    return false;
 };
 
-GemManager.prototype.getClosestGroup = function(x, maxLength, gemType) {
+GemManager.prototype.getClosestGroup = function(x, maxLength, gemType, keepGems) {
     var gem;
     var type = -1;
     var found = [];
@@ -78,11 +83,11 @@ GemManager.prototype.getClosestGroup = function(x, maxLength, gemType) {
                 if(type === -1) {
                     type = gem.type;
                     found.push(gem);
-                    this.gems[y][x] = -1;
+                    if(!keepGems) { this.gems[y][x] = -1; }
                 } else {
                     if(gem.type === type) {
                         found.push(gem);
-                        this.gems[y][x] = -1;
+                        if(!keepGems) { this.gems[y][x] = -1; }
                     } else {
                         break;
                     }
@@ -113,13 +118,34 @@ GemManager.prototype.placeGems = function(x, gems) {
             gems[y].y = y + ystart;
             gems[y].x = x;
             this.gems[y + ystart][x] = gems[y];
-            this.checkIfDead();
+            if (this.checkIfDead()) { break; };
         } else {
             return false;
         }
     }
     
     return true;
+};
+
+GemManager.prototype.tryToClear = function(x, type) {
+    var foundGems = this.getClosestGroup(x, this.scene.levelHeight, type, true);
+    if(foundGems.length >= this.gemsNeededToClear) {
+        this.clearGems(x, foundGems[0].y, type);
+    }
+};
+
+GemManager.prototype.clearGems = function(x, y, type) {
+    if(this.gems[y] && this.gems[y][x] && this.gems[y][x] !== -1 && this.gems[y][x].type === type) {
+        this.gems[y][x] = -1;
+        this.clearGems(x - 1, y, type);
+        this.clearGems(x + 1, y, type);
+        this.clearGems(x, y - 1, type);
+        this.clearGems(x, y + 1, type);
+    }
+};
+
+GemManager.prototype.clearGem = function(gem) {
+    gem = -1;
 };
 
 GemManager.prototype.update = function() {

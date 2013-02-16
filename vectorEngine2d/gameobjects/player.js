@@ -54,14 +54,15 @@ Player.prototype.init = function() {
             _this.forceUpdate();
         }
     });
-
     
     this.scene.inputManager.addKeyEvent(KeyAction.up, function() {
         if(!_this.scene.isPaused) {
             if(_this.heldGems) {
-                _this.scene.gemManager.placeGems(_this.x, _this.heldGems);
-                _this.heldGems = [];
-                _this.forceUpdate();
+                if(_this.scene.gemManager.placeGems(_this.x, _this.heldGems)) {
+                    _this.scene.gemManager.tryToClear(_this.x, _this.heldGems[0].type);
+                    _this.heldGems = [];
+                    _this.forceUpdate();
+                }
             }
         }
     });
