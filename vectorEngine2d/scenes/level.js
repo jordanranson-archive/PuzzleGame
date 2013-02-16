@@ -15,6 +15,7 @@ var Level = function(game, levelId) {
     this.newLineCounter = 0;
     this.newLineInterval = 50000000;
     this.timeWhenPaused = 0;
+    this.multiplier = 0;
     this.score = 0;
     
     // States
@@ -86,6 +87,11 @@ Level.prototype.draw = function() {
     if(this.renderManager.wireframes) {
         this.renderManager.drawRectangle(
             this.playingFieldX - 2, this.playingFieldY - 2, (this.levelWidth * this.gemSize) + 4, (this.levelHeight * this.gemSize) + 4 - this.gemSize, "#666", 4, "transparent"
+        );
+        
+        this.renderManager.drawText(
+            this.renderManager.canvas.width / 2, this.playingFieldY - 38,
+            "#ccc", "14pt sans-serif", "center", "Score - " + this.score
         );
     }
     
