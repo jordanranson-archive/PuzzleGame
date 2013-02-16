@@ -154,7 +154,6 @@ GemManager.prototype.clearGem = function(gem) {
 };
 
 GemManager.prototype.collapseGems = function() {
-    var gem, gemBelow;
     this.collapseCounter = 0;
     this.collapse();
 };
@@ -162,6 +161,7 @@ GemManager.prototype.collapseGems = function() {
 GemManager.prototype.collapse = function() {
     // TODO: make not bad
     try {
+        var gem, gemBelow;
         for(var x = 0; x < this.gems[0].length; x++) {
              for(var y = 0; y < this.gems.length; y++) {
                 gem = this.gems[y][x];
